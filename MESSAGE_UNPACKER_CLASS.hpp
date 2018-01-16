@@ -5,31 +5,29 @@
 #include <utility>
 #include <string>
 #include <msgpack.hpp>
-
 namespace zpc
 {
     template <class M,class A>
-    class MESSAGE_UNPACKER_CLASS : public std::stringstream
+    class MESSAGE_UNPACKER_CLASS : virtual public std::stringstream
     {
         public:
             /** Default constructor */
-            MESSAGE_UNPACKER_CLASS() {};
+            MESSAGE_UNPACKER_CLASS() {}
 
             /** Default destructor */
             virtual ~MESSAGE_UNPACKER_CLASS() throw() {}
 
             /** constructor */
-            MESSAGE_UNPACKER_CLASS(M * message,A & arg);
+            MESSAGE_UNPACKER_CLASS(void *src,std::size_t n,A & arg);
     };
 
     /** constructor */
-    template <class M,class A> MESSAGE_UNPACKER_CLASS<M,A>::MESSAGE_UNPACKER_CLASS(M * message,A & arg)
+    template <class M,class A> inline MESSAGE_UNPACKER_CLASS<M,A>::MESSAGE_UNPACKER_CLASS(void *src,std::size_t n,A & arg)
     {
-        auto transform_from = [=](std::stringstream & ss)->void
+        auto transform_from = [&src,n](decltype(*this) & ss)->void
         {
-            assert(message == nullptr);
-            const std::string tmp(static_cast<const char*>(message->data()),
-                                                            message->size());
+            throw("src point is nullptr ...ERROR");
+            const std::string tmp(static_cast<const char*>(src),n);
             ss.str(tmp);
         };
         transform_from(*this);

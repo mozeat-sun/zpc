@@ -6,37 +6,37 @@
 #include <utility>
 #include <string>
 #include <msgpack.hpp>
-
 #include <cassert>
+
 namespace zpc
 {
-    template<class M,class ARG>
-    class MESSAGE_PACKER_CLASS : public std::stringstream
+    template<class M ,class Arg>
+    class MESSAGE_PACKER_CLASS : virtual public std::stringstream
     {
         public:
             /** Default constructor */
-            MESSAGE_PACKER_CLASS() { };
+            MESSAGE_PACKER_CLASS() {}
 
             /** Default destructor */
             virtual ~MESSAGE_PACKER_CLASS() throw() {}
 
             /** destructor */
-            MESSAGE_PACKER_CLASS(M * message,ARG && arg);
+            MESSAGE_PACKER_CLASS( M * dest,Arg && arg);
     };
 
     /** destructor */
-    template<class M,class ARG> inline MESSAGE_PACKER_CLASS<M,ARG>::MESSAGE_PACKER_CLASS(M * message,ARG && arg)
+    template<class M,class Arg>
+    inline MESSAGE_PACKER_CLASS<M,Arg>::MESSAGE_PACKER_CLASS( M * dest,Arg && arg)
     {
-        auto transform_from = [this](ARG && arg)->void
+        auto transform_from = [this](Arg && arg)->void
         {
-            msgpack::pack(*this,arg);
+            msgpack::pack(*this,std::forward<Arg>(arg));
         };
-        transform_from(std::forward<ARG>(arg));
+        transform_from(std::forward<Arg>(arg));
 
-        auto transform_to = [=](std::stringstream & ss)->void
+        auto transform_to = [&dest](decltype(*this) & ss)->void
         {
-            assert(message != nullptr);
-            std::memcpy(message->data(), ss.str().data(), ss.str().size());
+            std::memcpy(dest, ss.str().data(), ss.str().size());
         };
         transform_to(*this);
     }
