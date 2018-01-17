@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1515981285 source:/usr/local/test/broker/main.cpp
+	"zhelpers.hpp"
+	<iostream>
+
+1515724181 /usr/local/test/broker/zhelpers.hpp
+	<zmq.hpp>
+	<iostream>
+	<iomanip>
+	<string>
+	<sstream>
+	<time.h>
+	<assert.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdarg.h>
+	<signal.h>
+	<sys/time.h>
+	<unistd.h>
+
+1509703604 /usr/local/include/zmq.hpp
+	<zmq.h>
+	<algorithm>
+	<cassert>
+	<cstring>
+	<string>
+	<exception>
+	<vector>
+	<iterator>
+	<chrono>
+	<tuple>
+	<functional>
+
+1515576178 /usr/local/include/zmq.h
+	<errno.h>
+	<stddef.h>
+	<stdio.h>
+	<winsock2.h>
+	<inttypes.h>
+	<stdint.h>
+
